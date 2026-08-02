@@ -25,6 +25,7 @@ export function ProjectVisual({
             src={project.image}
             alt=""
             fill
+            quality={95}
             sizes={compact ? "(max-width: 760px) 100vw, 33vw" : "50vw"}
           />
           <span className="project-sample-media-label">

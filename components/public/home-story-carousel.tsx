@@ -7,41 +7,46 @@ import { HackIcon } from "@/components/ui/hack-icon";
 
 const stories = [
   {
-    image: "/images/home/campus-entrance.webp",
+    image: "/images/home/campus-entrance.png",
     alt: "The Heritage High School main entrance at dusk",
     title: "Welcome to Heritage Hack Club!",
+    titleScale: "standard",
     copy: "A student-led project studio where ideas become useful public work, and every contributor gets visible credit.",
     source: "Club welcome · Main entrance",
     position: "50% 55%",
   },
   {
-    image: "/images/home/campus-wing.webp",
-    alt: "A sunlit academic wing at Heritage High School",
+    image: "/images/home/campus-lawn.png",
+    alt: "A wide view of the Heritage High School campus and lawn",
     title: "Build proof for future opportunities",
+    titleScale: "compact",
     copy: "Ship websites, bots, films, hardware, designs, and research, then document the decisions and skills behind the result on this very website.",
     source: "Project studio · Work in progress",
     position: "48% 55%",
   },
   {
-    image: "/images/home/campus-courtyard.webp",
+    image: "/images/home/campus-entrance.png",
     alt: "The Heritage High School main entrance and surrounding campus",
     title: "Make an impact at Heritage",
+    titleScale: "standard",
     copy: "Start with a real need at school, test an idea with the people it affects, and build something the community can actually use.",
     source: "Campus demo · Made for Heritage",
     position: "50% 50%",
   },
   {
-    image: "/images/home/campus-gym.webp",
+    image: "/images/home/campus-gym.png",
     alt: "A sunlit academic wing at Heritage High School",
     title: "Everybody deserves credit",
+    titleScale: "standard",
     copy: "Coders, designers, researchers, testers, writers, filmmakers, organizers, and presenters all get credit on their projects.",
     source: "Team work session · Built together",
     position: "50% 55%",
   },
   {
-    image: "/images/home/campus-theater.webp",
+    image: "/images/home/campus-theater.png",
     alt: "The Heritage High School theater and stage",
     title: "Present your work at showcases",
+    titleScale: "standard",
     copy: "Put your ideas out there and present live! Share your progress and hard work behind your project.",
     source: "Project showcase · Presented live",
     position: "55% 50%",
@@ -52,13 +57,33 @@ const AUTOPLAY_MS = 6500;
 
 export function HomeStoryCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [leavingIndex, setLeavingIndex] = useState<number | null>(null);
+  const [progressDirection, setProgressDirection] = useState<
+    "forward" | "backward"
+  >("forward");
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
 
-  const show = useCallback((index: number) => {
-    setActiveIndex((index + stories.length) % stories.length);
-  }, []);
+  const show = useCallback(
+    (index: number) => {
+      const nextIndex = (index + stories.length) % stories.length;
+
+      if (nextIndex === activeIndex) return;
+
+      const forwardDistance =
+        (nextIndex - activeIndex + stories.length) % stories.length;
+      const backwardDistance =
+        (activeIndex - nextIndex + stories.length) % stories.length;
+
+      setLeavingIndex(activeIndex);
+      setProgressDirection(
+        backwardDistance < forwardDistance ? "backward" : "forward",
+      );
+      setActiveIndex(nextIndex);
+    },
+    [activeIndex],
+  );
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -106,6 +131,7 @@ export function HomeStoryCarousel() {
               alt={index === activeIndex ? story.alt : ""}
               fill
               priority={index === 0}
+              quality={95}
               sizes="(max-width: 760px) 100vw, calc(100vw - 280px)"
               style={{ objectPosition: story.position }}
             />
@@ -115,7 +141,7 @@ export function HomeStoryCarousel() {
         <div className="home-story-wash" aria-hidden="true" />
 
         <div className="home-story-copy">
-          <h1>{activeStory.title}</h1>
+          <h1 data-scale={activeStory.titleScale}>{activeStory.title}</h1>
           <p>{activeStory.copy}</p>
           <div className="home-story-actions">
             <Link
@@ -187,6 +213,13 @@ export function HomeStoryCarousel() {
             type="button"
             aria-label={`Show story ${index + 1}: ${story.title}`}
             aria-current={index === activeIndex ? "true" : undefined}
+            data-progress-state={
+              index === activeIndex
+                ? `active-${progressDirection}`
+                : index === leavingIndex
+                  ? `leaving-${progressDirection}`
+                  : "idle"
+            }
             onClick={() => show(index)}
             key={story.title}
           >

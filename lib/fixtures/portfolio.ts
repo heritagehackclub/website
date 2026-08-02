@@ -65,7 +65,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "This section will show the current result, what the team learned, and what should happen next.",
     accent: "#338eda",
     visual: "map",
-    image: "/images/home/campus-wing.webp",
+    image: "/images/home/campus-wing.png",
     tags: ["Topic", "Audience", "Method"],
     tools: ["Tool or material", "Research method", "Testing method"],
     contributors: [
@@ -109,7 +109,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Use this space for evidence: a demo, test result, artifact, reflection, or next milestone.",
     accent: "#ec3750",
     visual: "bot",
-    image: "/images/home/campus-courtyard.webp",
+    image: "/images/home/campus-entrance.png",
     tags: ["Topic", "Testing", "Documentation"],
     tools: ["Tool or material", "Design process", "Feedback"],
     contributors: [
@@ -146,7 +146,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Use this space to show what was made and what the team wants to improve.",
     accent: "#a633d6",
     visual: "film",
-    image: "/images/home/campus-theater.webp",
+    image: "/images/home/campus-theater.png",
     tags: ["Story", "Presentation", "Teamwork"],
     tools: ["Creative tool", "Production method", "Presentation"],
     contributors: [

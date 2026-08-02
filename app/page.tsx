@@ -1,10 +1,19 @@
 import Link from "next/link";
+import localFont from "next/font/local";
 import { HomeStoryCarousel } from "@/components/public/home-story-carousel";
 import { ProjectVisual } from "@/components/public/project-visual";
 import { SiteShell } from "@/components/shell/site-shell";
 import { HackIcon } from "@/components/ui/hack-icon";
 import { StatusPill } from "@/components/ui/primitives";
 import { portfolioMembers, portfolioProjects } from "@/lib/fixtures/portfolio";
+
+const reservoirGrunge = localFont({
+  src: "./fonts/reservoir-grunge.woff2",
+  variable: "--font-reservoir-grunge",
+  display: "swap",
+  preload: false,
+  weight: "400",
+});
 
 const participationPaths = [
   {
@@ -37,25 +46,21 @@ const homeShortcuts = [
   {
     href: "#projects",
     label: "Current projects",
-    detail: "See what is being made",
     icon: "grid" as const,
   },
   {
     href: "#people",
     label: "Meet the team",
-    detail: "Find interests and skills",
     icon: "profile" as const,
   },
   {
     href: "/how-it-works",
     label: "How it works",
-    detail: "Lunch, projects, and credit",
     icon: "idea" as const,
   },
   {
     href: "#about",
     label: "About the club",
-    detail: "Why we build in public",
     icon: "info" as const,
   },
 ];
@@ -63,7 +68,7 @@ const homeShortcuts = [
 export default function Home() {
   return (
     <SiteShell>
-      <div className="page-wrap home-page">
+      <div className={`${reservoirGrunge.variable} page-wrap home-page`}>
         <HomeStoryCarousel />
 
         <nav className="home-shortcuts" aria-label="Explore Heritage Hack Club">
@@ -72,9 +77,7 @@ export default function Home() {
               <HackIcon name={shortcut.icon} size={25} />
               <span>
                 <strong>{shortcut.label}</strong>
-                <small>{shortcut.detail}</small>
               </span>
-              <HackIcon name="right-caret" size={18} />
             </a>
           ))}
         </nav>
@@ -82,12 +85,8 @@ export default function Home() {
         <section className="section-block home-projects" id="projects">
           <div className="section-heading">
             <div>
-              <span className="section-kicker">Made at Heritage</span>
-              <h2>Projects with a real story behind them.</h2>
-              <p>
-                Each page documents the problem, the process, and exactly who
-                contributed what.
-              </p>
+              <h2>Our projects</h2>
+              <p>Every project we made, respectively credited!</p>
             </div>
             <a className="text-link" href="#people">
               Meet the makers <HackIcon name="profile" size={17} />
@@ -195,12 +194,13 @@ export default function Home() {
           <span className="section-kicker">What this club is for</span>
           <div>
             <h2>
-              A home for unfinished ideas and the people who move them forward.
+              We&apos;re here to bring all different sorts of people and ideas
+              together
             </h2>
             <p>
-              We are connected to the national Hack Club nonprofit, but shaped
-              by Heritage students. The site is our shared portfolio: what we
-              tried, what changed, and who made each project possible.
+              We are connected to the national Hack Club nonprofit, but
+              ultimately, this club is made by Heritage students. This site is
+              our shared portfolio.
             </p>
           </div>
         </section>
